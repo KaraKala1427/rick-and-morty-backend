@@ -16,7 +16,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/test', function () {
-    $data = "from web";
-    return view('test',compact('data'));
-});
+

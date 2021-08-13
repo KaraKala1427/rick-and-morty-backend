@@ -22,3 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/test', [IndexController::class,'test']);
 Route::get('/characters', [CharacterController::class,'getCharacters']);
+Route::get('/characters/{characterId}', [CharacterController::class,'getCharacterById']);
+Route::post('/characters/', [CharacterController::class,'createCharacter']);
+Route::put('/characters/{characterId}', [CharacterController::class,'updateCharacter']);
+Route::delete('/characters/{characterId}', [CharacterController::class,'deleteCharacter']);

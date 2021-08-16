@@ -11,19 +11,20 @@ interface CharacterRepositoryInterface
      * @param string[] $columns
      * @return array
      */
-    public function all($columns = ['*']);
+    public function index($columns = ['*']);
 
     /**
      * @param $id
      * @return Character|null
      * @throws ModelNotFoundException
      */
-    public function getById($id);
+    public function get($id);
 
-    public function create($data);
-
-    public function delete($id);
+    public function store($data);
 
     public function update($id, $data);
+
+    public function destroy($id);
+
 
 }

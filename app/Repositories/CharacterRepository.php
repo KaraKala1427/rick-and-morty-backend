@@ -9,36 +9,20 @@ use App\Repositories\Interfaces\CharacterRepositoryInterface;
 
 class CharacterRepository implements CharacterRepositoryInterface
 {
-    public function all($columns = ['id','name','status','gender','race','description'])
+    public function index($columns = ['id','name','status','gender','race','description'])
     {
         return Character::all($columns);
     }
-    public function getById($id)
+    public function get($id)
     {
         return Character::findOrFail($id, $columns = array('id','name','status','gender','race','description'));
     }
 
-    public function create($data)
+    public function store($data)
     {
-        Character::query()->updateOrCreate($data);
+        Character::Create($data);
 
-        return response()->json(
-            [
-            "message" => "Персонаж сохранен"
-            ]
-        );
-    }
-
-    public function delete($id)
-    {
-        $character = Character::query()->findOrFail($id);
-        $character->delete();
-
-        return response()->json(
-            [
-                "message" => "Персонаж удален"
-            ]
-        );
+        return ["message" => "Персонаж сохранен"];
     }
 
     public function update($id, $data)
@@ -46,11 +30,15 @@ class CharacterRepository implements CharacterRepositoryInterface
         $character = Character::query()->findOrFail($id);
         $character->update($data);
 
-        return response()->json(
-            [
-                "message" => "Персонаж обновлен"
-            ]
-        );
+        return ["message" => "Персонаж обновлен"];
     }
+    public function destroy($id)
+    {
+        $character = Character::query()->findOrFail($id);
+        $character->delete();
+
+        return ["message" => "Персонаж удален"];
+    }
+
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CharacterRequest;
 use App\Models\Character;
 use App\Repositories\CharacterRepository;
 use Illuminate\Http\Request;
@@ -16,115 +17,28 @@ class CharacterController extends Controller
         $this->repository = $repository;
     }
 
-    public function getCharacters()
+    public function index()
     {
-        try {
-            return response()->json(
-                [
-                    'success' => true,
-                    'data' => $this->repository->all()
-                ]
-            );
-        } catch (\Exception $exception) {
-            return response()->json(
-                [
-                    'success' => false,
-                    'message' => $exception->getMessage()
-                ]
-            );
-        }
+        return $this->repository->index();
     }
 
-    public function getCharacterById($id)
+    public function get($id)
     {
-        try {
-            return response()->json(
-                [
-                    'success' => true,
-                    'data' => $this->repository->getById($id)
-                ]
-            );
-        } catch (\Exception $exception) {
-            return response()->json(
-                [
-                    'success' => false,
-                    'message' => $exception->getMessage()
-                ]
-            );
-        }
+        return  $this->repository->get($id);
     }
 
-    public function createCharacter(Request $request)
+    public function store(CharacterRequest $request)
     {
-        try {
-            $validation = Validator::make($request->all(),
-                [
-                    'name' => 'required',
-                    'status' => 'required',
-                    'gender' => 'required',
-                    'race' => 'required',
-                ]
-            );
-
-            if ($validation->fails()) {
-                return [
-                    "success" => false,
-                    "errors" => $validation->errors()
-                ];
-            }
-            $character = $this->repository->create($request->all());
-
-            return response()->json(
-                [
-                    'success' => true,
-                    'data' => $character
-                ]
-            );
-        } catch (\Exception $exception) {
-            return response()->json(
-                [
-                    'success' => false,
-                    'message' => $exception->getMessage()
-                ]
-            );
-        }
+        return $this->repository->store($request->validated());
     }
 
-    public function updateCharacter($id, Request $request) {
-        try {
-
-            return response()->json(
-                [
-                    'success'   => true,
-                    'data'      => $this->repository->update($id, $request->all())
-                ]
-            );
-        } catch (\Exception $exception) {
-            return response()->json(
-                [
-                    'success' => false,
-                    'message' => $exception->getMessage()
-                ]
-            );
-        }
+    public function update($id, CharacterRequest $request)
+    {
+        return $this->repository->update($id, $request->validated());
     }
 
-    public function deleteCharacter($id) {
-        try {
-
-            return response()->json(
-                [
-                    'success'   => false,
-                    'data'      => $this->repository->delete($id)
-                ]
-            );
-        } catch (\Exception $exception) {
-            return response()->json(
-                [
-                    'success' => false,
-                    'message' => $exception->getMessage()
-                ]
-            );
-        }
+    public function destroy($id)
+    {
+        return $this->repository->destroy($id);
     }
 }

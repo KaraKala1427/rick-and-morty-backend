@@ -20,9 +20,9 @@ class CharacterController extends Controller
         $this->service = $service;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $characters = $this->service->index();
+        $characters = $this->service->index($request);
         return new CharacterCollection($characters);
     }
 

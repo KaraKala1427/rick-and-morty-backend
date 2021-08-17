@@ -15,9 +15,9 @@ class CharacterService
         $this->characterRepository = $characterRepository;
     }
 
-    public function index()
+    public function index($request)
     {
-        return $this->characterRepository->index();
+        return $this->characterRepository->index($request);
     }
     public function get($id)
     {

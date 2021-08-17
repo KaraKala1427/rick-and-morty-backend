@@ -9,13 +9,22 @@ use App\Repositories\Interfaces\CharacterRepositoryInterface;
 
 class CharacterRepository implements CharacterRepositoryInterface
 {
-    public function index()
+    public function index($request)
     {
-        $nameFilter = request('name');
-
-        $characters = Character::query()
-            ->where('name','LIKE',"%{$nameFilter}%")
-            ->get();
+//        $characters = Character::query()->where('name','LIKE',"%{$nameFilter}%")->get();
+        $characters = Character::all();
+        if ($request->has('status')){
+            $characters = $characters->whereIn('status',$request->status);
+        }
+        if($request->has('gender')){
+            $characters = $characters->whereIn('gender',$request->gender);
+        }
+        if($request->has('race')){
+            $characters = $characters->whereIn('race',$request->race);
+        }
+//        if ($request->has('name')){
+//            $characters = $characters->where('name','LIKE',"%{$request->name}%");
+//        }
         return $characters;
     }
     public function get($id)

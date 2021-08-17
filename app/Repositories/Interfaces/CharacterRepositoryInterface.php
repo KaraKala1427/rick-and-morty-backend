@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 interface CharacterRepositoryInterface
 {
 
-    public function index();
+    public function index($data);
 
     public function get($id);
 

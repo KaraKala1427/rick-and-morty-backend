@@ -57,4 +57,9 @@ class CharacterRepository implements CharacterRepositoryInterface
         return $character;
     }
 
+    public function paginate($per_page)
+    {
+        // TODO: Implement paginate() method.
+    }
+
 }

@@ -6,6 +6,9 @@ namespace App\Repositories;
 
 use App\Models\Character;
 use App\Repositories\Interfaces\CharacterRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
 class CharacterRepository implements CharacterRepositoryInterface
 {
@@ -23,12 +26,19 @@ class CharacterRepository implements CharacterRepositoryInterface
             $characters = $characters->whereIn('race',$request->race);
         }
         if($request->has('per_page')){
-            $characters = $characters->paginate($request->per_page);
+            $characters = $this->paginate($characters, $request->per_page);
         }
+
 //        if ($request->has('name')){
 //            $characters = $characters->where('name','LIKE',"%{$request->name}%")->get();
 //        }
         return $characters;
+    }
+    public function paginate($items, $perPage = 3, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
     public function get($id)
     {
@@ -56,8 +66,4 @@ class CharacterRepository implements CharacterRepositoryInterface
 
     }
 
-    public function paginate($per_page = 3)
-    {
-        return Character::paginate($per_page);
-    }
 }

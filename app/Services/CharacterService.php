@@ -25,14 +25,18 @@ class CharacterService
     }
     public function store($data)
     {
-        return $this->characterRepository->store($data);
+        $character =  $this->characterRepository->store($data);
+        if($character) return ["message" => "Персонаж сохранен"];
+
     }
     public function update($id, $data)
     {
-        return $this->characterRepository->update($id, $data);
+        $character = $this->characterRepository->update($id, $data);
+        if($character) return ["message" => "Персонаж обновлен"];
     }
     public function destroy($id)
     {
-        return $this->characterRepository->destroy($id);
+        $character =  $this->characterRepository->destroy($id);
+        if($character) return ["message" => "Персонаж удален"];
     }
 }

@@ -11,7 +11,12 @@ class CharacterRepository implements CharacterRepositoryInterface
 {
     public function index()
     {
-        return Character::all();
+        $nameFilter = request('name');
+
+        $characters = Character::query()
+            ->where('name','LIKE',"%{$nameFilter}%")
+            ->get();
+        return $characters;
     }
     public function get($id)
     {
@@ -20,24 +25,23 @@ class CharacterRepository implements CharacterRepositoryInterface
 
     public function store($data)
     {
-        Character::Create($data);
+        return Character::Create($data);
 
-        return ["message" => "Персонаж сохранен"];
     }
 
     public function update($id, $data)
     {
         $character = Character::query()->findOrFail($id);
         $character->update($data);
+        return $character;
 
-        return ["message" => "Персонаж обновлен"];
     }
     public function destroy($id)
     {
         $character = Character::query()->findOrFail($id);
         $character->delete();
+        return $character;
 
-        return ["message" => "Персонаж удален"];
     }
 
     public function paginate($per_page = 3)

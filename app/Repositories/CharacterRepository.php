@@ -22,8 +22,11 @@ class CharacterRepository implements CharacterRepositoryInterface
         if($request->has('race')){
             $characters = $characters->whereIn('race',$request->race);
         }
+        if($request->has('per_page')){
+            $characters = $characters->paginate($request->per_page);
+        }
 //        if ($request->has('name')){
-//            $characters = $characters->where('name','LIKE',"%{$request->name}%");
+//            $characters = $characters->where('name','LIKE',"%{$request->name}%")->get();
 //        }
         return $characters;
     }

@@ -9,13 +9,13 @@ use App\Repositories\Interfaces\CharacterRepositoryInterface;
 
 class CharacterRepository implements CharacterRepositoryInterface
 {
-    public function index($columns = ['id','name','status','gender','race','description'])
+    public function index()
     {
-        return Character::all($columns);
+        return Character::all();
     }
     public function get($id)
     {
-        return Character::findOrFail($id, $columns = array('id','name','status','gender','race','description'));
+        return Character::findOrFail($id);
     }
 
     public function store($data)
@@ -40,5 +40,8 @@ class CharacterRepository implements CharacterRepositoryInterface
         return ["message" => "Персонаж удален"];
     }
 
-
+    public function paginate($per_page = 3)
+    {
+        return Character::paginate($per_page);
+    }
 }

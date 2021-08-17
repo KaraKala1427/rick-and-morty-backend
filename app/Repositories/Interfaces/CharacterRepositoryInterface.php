@@ -7,17 +7,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 interface CharacterRepositoryInterface
 {
-    /**
-     * @param string[] $columns
-     * @return array
-     */
-    public function index($columns = ['*']);
 
-    /**
-     * @param $id
-     * @return Character|null
-     * @throws ModelNotFoundException
-     */
+    public function index();
+
     public function get($id);
 
     public function store($data);
@@ -25,6 +17,8 @@ interface CharacterRepositoryInterface
     public function update($id, $data);
 
     public function destroy($id);
+
+    public function paginate($per_page);
 
 
 }

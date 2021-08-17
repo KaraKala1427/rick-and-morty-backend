@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CharacterRequest;
+use App\Http\Resources\CharacterCollection;
+use App\Http\Resources\CharacterResource;
 use App\Models\Character;
 use App\Repositories\CharacterRepository;
 use App\Services\CharacterService;
@@ -20,12 +22,14 @@ class CharacterController extends Controller
 
     public function index()
     {
-        return $this->service->index();
+        $characters = $this->service->index();
+        return new CharacterCollection($characters);
     }
 
-    public function get($id)
+    public function show($id)
     {
-        return  $this->service->get($id);
+        $character = $this->service->get($id);
+        return new CharacterResource($character);
     }
 
     public function store(CharacterRequest $request)

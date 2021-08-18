@@ -7,36 +7,57 @@ namespace App\Services;
 use App\Repositories\CharacterRepository;
 use phpDocumentor\Reflection\Types\Integer;
 
-class CharacterService
+class CharacterService extends BaseService
 {
-    protected $characterRepository;
+    protected $repository;
 
     public function __construct(CharacterRepository $characterRepository){
-        $this->characterRepository = $characterRepository;
+        $this->repository = $characterRepository;
     }
 
-    public function index($request)
+    /**
+     * список с пагинацией
+     */
+    public function indexPaginate($params) : ServiceResult
     {
-        return $this->characterRepository->index($request);
+        return $this->result($this->repository->indexPaginate($params));
     }
-    public function get($id)
+    /**
+     * Персонаж
+     */
+    public function get($id) : ServiceResult
     {
-        return $this->characterRepository->get($id);
+        $model =  $this->repository->get($id);
+        if(is_null($model)){
+            return $this->errNotFound('Персонаж не найден');
+        }
+        return $this->result($model);
     }
+    /**
+     * Сохранить персонажа
+     */
     public function store($data)
     {
-        $character =  $this->characterRepository->store($data);
-        if($character) return ["message" => "Персонаж сохранен"];
+        $model =  $this->repository->store($data);
+        if($model) return ["message" => "Персонаж сохранен"];
 
     }
+
+    /**
+     * Изменить персонажа
+     */
     public function update($id, $data)
     {
-        $character = $this->characterRepository->update($id, $data);
-        if($character) return ["message" => "Персонаж обновлен"];
+        $model = $this->repository->update($id, $data);
+        if($model) return ["message" => "Персонаж обновлен"];
     }
+
+    /**
+     * Удалить персонажа
+     */
     public function destroy($id)
     {
-        $character =  $this->characterRepository->destroy($id);
-        if($character) return ["message" => "Персонаж удален"];
+        $model =  $this->repository->destroy($id);
+        if($model) return ["message" => "Персонаж удален"];
     }
 }

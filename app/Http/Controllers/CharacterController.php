@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CharacterIndexRequest;
 use App\Http\Requests\CharacterRequest;
 use App\Http\Resources\CharacterCollection;
 use App\Http\Resources\CharacterResource;
@@ -22,8 +23,8 @@ class CharacterController extends Controller
 
     public function index(Request $request)
     {
-        $characters = $this->service->index($request);
-        return new CharacterCollection($characters);
+        $characters = $this->service->indexPaginate($request->query());
+        return $this->resultCollection(CharacterCollection::class,$characters);
     }
 
     public function show($id)

@@ -10,7 +10,7 @@ interface CharacterRepositoryInterface
 
     public function index($data);
 
-    public function get($id);
+    public function get(int $id);
 
     public function store($data);
 

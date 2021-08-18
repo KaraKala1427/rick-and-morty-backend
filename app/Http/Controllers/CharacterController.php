@@ -29,22 +29,25 @@ class CharacterController extends Controller
 
     public function show($id)
     {
-        $character = $this->service->get($id);
-        return new CharacterResource($character);
+        $model = $this->service->get($id);
+        return $this->resultResource(CharacterResource::class,$model);
     }
 
     public function store(CharacterRequest $request)
     {
-        return $this->service->store($request->validated());
+        $model = $this->service->store($request->validated());
+        return $this->result($model);
     }
 
     public function update($id, CharacterRequest $request)
     {
-        return $this->service->update($id, $request->validated());
+        $model = $this->service->update($id, $request->validated());
+        return $this->result($model);
     }
 
     public function destroy($id)
     {
-        return $this->service->destroy($id);
+        $model =  $this->service->destroy($id);
+        return $this->result($model);
     }
 }

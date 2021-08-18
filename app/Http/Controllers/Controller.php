@@ -24,4 +24,12 @@ class Controller extends BaseController
         }
         return new $collectionClass($result->data);
     }
+
+    protected function resultResource($resourceClass, ServiceResult $result)
+    {
+        if(!$result->isSuccess()) {
+            return $this->result($result);
+        }
+        return new $resourceClass($result->data);
+    }
 }

@@ -5,12 +5,11 @@ namespace App\Repositories;
 
 
 use App\Models\Character;
-use App\Repositories\Interfaces\CharacterRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 
-class CharacterRepository implements CharacterRepositoryInterface
+class CharacterRepository
 {
     public function indexPaginate($params)
     {
@@ -85,25 +84,25 @@ class CharacterRepository implements CharacterRepositoryInterface
     public function store($data)
     {
         return Character::Create($data);
-
     }
 
     public function update($id, $data)
     {
-        $character = $this->get($id)->update($data);
-        return $character;
-
+        return $this->get($id)->update($data);
     }
-    public function destroy($id)
+    public function destroy($model)
     {
-        $character = $this->get($id)->delete();
-        return $character;
+        return $model->delete();
+//        return $character;
     }
 
-    public function paginate($per_page)
-    {
-        // TODO: Implement paginate() method.
-    }
+    public function existsName(string $name, int $id = null){
+        $model = Character::find($id);
 
+        if(isset($model->name) && $model->name == $name) return false;
+        elseif(Character::where('name',$name)->first() === null) return false;
+
+        return true;
+    }
 
 }

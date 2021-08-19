@@ -93,7 +93,6 @@ class CharacterRepository
     public function destroy($model)
     {
         return $model->delete();
-//        return $character;
     }
 
     public function existsName(string $name, int $id = null){

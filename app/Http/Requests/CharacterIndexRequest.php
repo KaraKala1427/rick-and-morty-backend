@@ -24,7 +24,14 @@ class CharacterIndexRequest extends FormRequest
     public function rules()
     {
         return [
-
+            'name' => 'nullable|string|max:255',
+            'page' => 'nullable|integer',
+            'per_page' => 'nullable|integer',
+            'sort' => 'nullable|string|in:id,name,status,gender,race',
+            'order' => 'nullable|in:asc,desc',
+            'gender.*' => 'nullable|string|in:male,female',
+            'status.*' => 'nullable|string|in:alive,dead',
+            'race.*' => 'nullable|string|in:human,alien,robot,humanoid,animal',
         ];
     }
 }

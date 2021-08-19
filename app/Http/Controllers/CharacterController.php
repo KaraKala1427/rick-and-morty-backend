@@ -21,9 +21,9 @@ class CharacterController extends Controller
         $this->service = $service;
     }
 
-    public function index(Request $request)
+    public function index(CharacterIndexRequest $request)
     {
-        $characters = $this->service->indexPaginate($request->query());
+        $characters = $this->service->indexPaginate($request->validated());
         return $this->resultCollection(CharacterCollection::class,$characters);
     }
 

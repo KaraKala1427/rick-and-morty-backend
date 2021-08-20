@@ -25,7 +25,12 @@ class CharacterService extends BaseService
      */
     public function indexPaginate($params) : ServiceResult
     {
-        return $this->result($this->repository->indexPaginate($params));
+        $collection = $this->repository->indexPaginate($params);
+        $collection->each(function ($model){
+            $model['image'] = isset($model->image_id) ? $this->imageRepository->get($model->image_id) : null;
+        });
+
+        return $this->result($collection);
     }
     /**
      * Персонаж
@@ -33,13 +38,12 @@ class CharacterService extends BaseService
     public function get($id) : ServiceResult
     {
         $model = $this->repository->get($id);
-        $modelImage = isset($model->image_id) ? $this->imageRepository->get($model->image_id) : null;
 
         if(is_null($model))
         {
             return $this->errNotFound('Персонаж не найден');
         }
-        $model['image'] = $modelImage;
+        $model['image'] = isset($model->image_id) ? $this->imageRepository->get($model->image_id) : null;
         return $this->result($model);
     }
     /**

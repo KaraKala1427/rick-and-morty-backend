@@ -37,9 +37,10 @@ class ImageService extends BaseService
     {
         $file = $data['image'];
         $newName = $file->hashName();
+        $path = 'images/'.$newName;
         Storage::putFileAs('public/images',$file,$newName);
 
-        $data = ['path' => Storage::url('images/'.$newName)];
+        $data = ['path' => $path];
         $model =  $this->repository->store($data);
         return $this->result($model);
 
@@ -56,7 +57,8 @@ class ImageService extends BaseService
         {
             return $this->errNotFound('Картинка не найдена');
         }
-        Storage::disk('public')->delete('images/');
+
+        Storage::disk('public')->delete($model->path);
 
         $this->repository->destroy($model);
         return $this->ok('Картинка удалена');

@@ -21,7 +21,7 @@ class CharacterResource extends JsonResource
             'gender' => $this->gender,
             'race' => $this->race,
             'description' => $this->description,
-            'image' => ImageResource::make($this->image)
+            'image' => new ImageResource($this->image)
         ];
     }
 }

@@ -19,6 +19,18 @@ class ImageService extends BaseService
     }
 
     /**
+     * Картинка
+     */
+    public function get($id) : ServiceResult
+    {
+        $model = $this->repository->get($id);
+        if(is_null($model))
+        {
+            return $this->errNotFound('Картинка не найдена');
+        }
+        return $this->result($model);
+    }
+    /**
      * Сохранить картинку
      */
     public function store($data) : ServiceResult

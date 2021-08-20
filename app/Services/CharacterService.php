@@ -5,14 +5,19 @@ namespace App\Services;
 
 
 use App\Repositories\CharacterRepository;
+use App\Repositories\ImageRepository;
 use phpDocumentor\Reflection\Types\Integer;
 
 class CharacterService extends BaseService
 {
     protected $repository;
+    protected $imageRepository;
+    protected $imageService;
 
-    public function __construct(CharacterRepository $characterRepository){
+    public function __construct(CharacterRepository $characterRepository, ImageRepository $imageRepository, ImageService $imageService){
         $this->repository = $characterRepository;
+        $this->imageRepository = $imageRepository;
+        $this->imageService = $imageService;
     }
 
     /**
@@ -28,10 +33,13 @@ class CharacterService extends BaseService
     public function get($id) : ServiceResult
     {
         $model = $this->repository->get($id);
+        $modelImage = isset($model->image_id) ? $this->imageRepository->get($model->image_id) : null;
+
         if(is_null($model))
         {
             return $this->errNotFound('Персонаж не найден');
         }
+        $model['image'] = $modelImage;
         return $this->result($model);
     }
     /**
@@ -43,7 +51,16 @@ class CharacterService extends BaseService
         {
             return $this->errValidate("Персонаж с таким именем уже существует");
         }
-        $model =  $this->repository->store($data);
+
+        if (isset($data['image_id'])){
+            $model = $this->imageRepository->get($data['image_id']);
+            if(is_null($model))
+            {
+                return $this->errNotFound('Картинка с такой id не найден');
+            }
+        }
+
+        $this->repository->store($data);
         return $this->ok('Персонаж сохранен');
 
     }
@@ -61,6 +78,13 @@ class CharacterService extends BaseService
         if($this->repository->existsName($data['name'],$id))
         {
             return $this->errValidate("Персонаж с таким именем уже существует");
+        }
+        if (isset($data['image_id'])){
+            $model = $this->imageRepository->get($data['image_id']);
+            if(is_null($model))
+            {
+                return $this->errNotFound('Картинка с такой id не найден');
+            }
         }
 
         $this->repository->update($id,$data);

@@ -29,6 +29,7 @@ class CharacterRequest extends FormRequest
             'gender' => 'required|string|in:male,female',
             'race' => 'required|string|in:human,alien,robot,humanoid,animal',
             'description' => 'required|string|max:10000',
+            'image_id' => 'nullable|integer|',
         ];
     }
 }

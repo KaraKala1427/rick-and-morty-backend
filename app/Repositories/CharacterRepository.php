@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 
 use App\Models\Character;
+use App\Models\Image;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -103,5 +104,6 @@ class CharacterRepository
 
         return true;
     }
+
 
 }

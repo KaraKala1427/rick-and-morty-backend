@@ -62,6 +62,10 @@ class CharacterService extends BaseService
             {
                 return $this->errNotFound('Картинка с такой id не найден');
             }
+            if($this->repository->busyImage($data['image_id']))
+            {
+                return $this->errValidate("Картинка занята");
+            }
         }
 
         $this->repository->store($data);
@@ -88,6 +92,10 @@ class CharacterService extends BaseService
             if(is_null($model))
             {
                 return $this->errNotFound('Картинка с такой id не найден');
+            }
+            if($this->repository->existsImage($data['image_id'], $id))
+            {
+                return $this->errValidate("Картинка занята");
             }
         }
 

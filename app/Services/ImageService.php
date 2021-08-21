@@ -57,8 +57,7 @@ class ImageService extends BaseService
         {
             return $this->errNotFound('Картинка не найдена');
         }
-
-        Storage::disk('public')->delete($model->path);
+//        Storage::disk('public')->delete($model->path);
 
         $this->repository->destroy($model);
         return $this->ok('Картинка удалена');

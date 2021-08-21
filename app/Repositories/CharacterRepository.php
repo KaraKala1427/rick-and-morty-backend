@@ -104,6 +104,13 @@ class CharacterRepository
 
         return true;
     }
+    public function existsImage(int $imageId , int $id = null)
+    {
+        $model = Character::find($id);
+        if (isset($id) && $model->image_id == $imageId) return false;
+        elseif(Character::where('image_id',$imageId)->first() === null) return false;
+        return true;
+    }
 
 
 }

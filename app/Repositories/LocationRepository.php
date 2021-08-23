@@ -6,11 +6,12 @@ namespace App\Repositories;
 
 use App\Models\Character;
 use App\Models\Image;
+use App\Models\Location;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 
-class CharacterRepository
+class LocationRepository
 {
     public function indexPaginate($params)
     {
@@ -24,7 +25,7 @@ class CharacterRepository
 
     private function prepareQuery($params)
     {
-        $query = Character::with(['image']);
+        $query = Location::with(['image']);
         $query = $this->queryApplyFilter($query,$params);
         $query = $this->queryApplySort($query,$params);
         return $query;
@@ -37,28 +38,20 @@ class CharacterRepository
                    ->orWhere('description','LIKE',"%{$params['name']}%");
             });
         }
-        if(isset($params['status'])){
-            if(is_array($params['status'])){
-                $query->whereIn('status',$params['status']);
+        if(isset($params['type'])){
+            if(is_array($params['type'])){
+                $query->whereIn('type',$params['type']);
             }
             else {
-                $query->where('status',$params['status']);
+                $query->where('type',$params['type']);
             }
         }
-        if(isset($params['gender'])){
-            if(is_array($params['gender'])){
-                $query->whereIn('gender',$params['gender']);
+        if(isset($params['dimension'])){
+            if(is_array($params['dimension'])){
+                $query->whereIn('dimension',$params['dimension']);
             }
             else {
-                $query->where('gender',$params['gender']);
-            }
-        }
-        if(isset($params['race'])){
-            if(is_array($params['race'])){
-                $query->whereIn('race',$params['race']);
-            }
-            else {
-                $query->where('race',$params['race']);
+                $query->where('dimension',$params['dimension']);
             }
         }
         return $query;
@@ -74,17 +67,14 @@ class CharacterRepository
         return $query;
     }
 
-    /**
-     * Получить персонажа
-     */
-    public function get(int $id) : ?Character
+    public function get(int $id) : ?Location
     {
-        return Character::find($id);
+        return Location::find($id);
     }
 
     public function store($data)
     {
-        return Character::Create($data);
+        return Location::Create($data);
     }
 
     public function update($id, $data)
@@ -98,10 +88,10 @@ class CharacterRepository
 
     public function existsName(string $name, int $id = null)
     {
-        $model = Character::find($id);
+        $model = Location::find($id);
 
         if(isset($model->name) && $model->name == $name) return false;
-        elseif(Character::where('name',$name)->first() === null) return false;
+        elseif(Location::where('name',$name)->first() === null) return false;
 
         return true;
     }

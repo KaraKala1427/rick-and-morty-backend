@@ -4,15 +4,14 @@
 namespace App\Services;
 
 
-use App\Repositories\CharacterRepository;
-use phpDocumentor\Reflection\Types\Integer;
+use App\Repositories\LocationRepository;
 
-class CharacterService extends BaseService
+class LocationService extends BaseService
 {
     protected $repository;
     protected $imageService;
 
-    public function __construct(CharacterRepository $characterRepository, ImageService $imageService){
+    public function __construct(LocationRepository $characterRepository, ImageService $imageService){
         $this->repository = $characterRepository;
         $this->imageService = $imageService;
     }
@@ -26,7 +25,7 @@ class CharacterService extends BaseService
         return $this->result($collection);
     }
     /**
-     * Персонаж
+     * Локация
      */
     public function get($id) : ServiceResult
     {
@@ -34,55 +33,55 @@ class CharacterService extends BaseService
 
         if(is_null($model))
         {
-            return $this->errNotFound('Персонаж не найден');
+            return $this->errNotFound('Локация не найдена');
         }
         return $this->result($model);
     }
     /**
-     * Сохранить персонажа
+     * Сохранить локацию
      */
     public function store($data) : ServiceResult
     {
         if($this->repository->existsName($data['name']))
         {
-            return $this->errValidate("Персонаж с таким именем уже существует");
+            return $this->errValidate("Локация с таким именем уже существует");
         }
 
         $this->repository->store($data);
-        return $this->ok('Персонаж сохранен');
+        return $this->ok('Локация сохранен');
 
     }
 
     /**
-     * Изменить персонажа
+     * Изменить локацию
      */
     public function update($id, $data) : ServiceResult
     {
         $model = $this->repository->get($id);
         if(is_null($model))
         {
-            return $this->errNotFound('Персонаж не найден');
+            return $this->errNotFound('Локация не найдена');
         }
         if($this->repository->existsName($data['name'],$id))
         {
-            return $this->errValidate("Персонаж с таким именем уже существует");
+            return $this->errValidate("Локация с таким именем уже существует");
         }
 
         $this->repository->update($id,$data);
-        return $this->ok('Персонаж обновлен');
+        return $this->ok('Локация обновлена');
     }
 
     /**
-     * Удалить персонажа
+     * Удалить локацию
      */
     public function destroy($id)
     {
         $model =  $this->repository->get($id);
         if(is_null($model))
         {
-            return $this->errNotFound('Персонаж не найден');
+            return $this->errNotFound('Локация не найдена');
         }
         $this->repository->destroy($model);
-        return $this->ok('Персонаж удален');
+        return $this->ok('Локация удалена');
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\LocationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,4 +22,5 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'v1'], function(){
     Route::apiResource('characters',CharacterController::class);
     Route::apiResource('images',ImageController::class)->only(['store,destroy']);
+    Route::apiResource('locations',LocationController::class);
 });

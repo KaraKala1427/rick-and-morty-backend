@@ -12,4 +12,9 @@ class Character extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
     protected $fillable = ['name','status','gender','race','description','image_id'];
+
+    public function image()
+    {
+        return $this->belongsTo(Image::class);
+    }
 }

@@ -23,5 +23,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'v1'], function(){
     Route::apiResource('characters',CharacterController::class);
-    Route::apiResource('images',ImageController::class);
+    Route::apiResource('images',ImageController::class)->only(['store,destroy']);
 });

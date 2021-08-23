@@ -16,11 +16,6 @@ class ImageController extends Controller
         $this->service = $service;
     }
 
-    public function show($id)
-    {
-        $model = $this->service->get($id);
-        return $this->resultResource(ImageResource::class,$model);
-    }
     public function store(ImageRequest $request)
     {
         $model = $this->service->store($request->validated());

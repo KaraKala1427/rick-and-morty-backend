@@ -36,7 +36,7 @@ class ImageService extends BaseService
     public function store($data) : ServiceResult
     {
         $file = $data['image'];
-        $newName = $file->hashName();
+        $newName = $file->hashName(); // записываю вместо название его Хэш
         $path = 'images/'.$newName;
         Storage::putFileAs('public/images',$file,$newName);
 
@@ -57,7 +57,6 @@ class ImageService extends BaseService
         {
             return $this->errNotFound('Картинка не найдена');
         }
-//        Storage::disk('public')->delete($model->path);
 
         $this->repository->destroy($model);
         return $this->ok('Картинка удалена');

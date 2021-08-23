@@ -96,7 +96,8 @@ class CharacterRepository
         return $model->delete();
     }
 
-    public function existsName(string $name, int $id = null){
+    public function existsName(string $name, int $id = null)
+    {
         $model = Character::find($id);
 
         if(isset($model->name) && $model->name == $name) return false;

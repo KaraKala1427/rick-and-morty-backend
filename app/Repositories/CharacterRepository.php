@@ -24,7 +24,7 @@ class CharacterRepository
 
     private function prepareQuery($params)
     {
-        $query = Character::with(['image']);
+        $query = Character::with(['image','birth_location','current_location']);
         $query = $this->queryApplyFilter($query,$params);
         $query = $this->queryApplySort($query,$params);
         return $query;

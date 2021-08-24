@@ -14,6 +14,7 @@ class CharacterResource extends JsonResource
      */
     public function toArray($request)
     {
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -21,7 +22,9 @@ class CharacterResource extends JsonResource
             'gender' => $this->gender,
             'race' => $this->race,
             'description' => $this->description,
-            'image' => new ImageResource($this->image)
+            'image' => new ImageResource($this->image),
+            'birth_location' => new SimpleLocationResource($this->birth_location),
+            'current_location' => new SimpleLocationResource($this->current_location),
         ];
     }
 }

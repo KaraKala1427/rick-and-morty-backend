@@ -21,6 +21,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function(){
     Route::apiResource('characters',CharacterController::class);
-    Route::apiResource('images',ImageController::class)->only(['store,destroy']);
+    Route::apiResource('images',ImageController::class)->only(['store','destroy']);
     Route::apiResource('locations',LocationController::class);
 });

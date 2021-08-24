@@ -35,15 +35,10 @@ class ImageService extends BaseService
      */
     public function store($data) : ServiceResult
     {
-        $file = $data['image'];
-        $newName = $file->hashName(); // записываю вместо название его Хэш
-        $path = 'images/'.$newName;
-        Storage::putFileAs('public/images',$file,$newName);
-
+        $path = $data['image']->storePublicly('images','public');
         $data = ['path' => $path];
         $model =  $this->repository->store($data);
         return $this->result($model);
-
     }
 
 

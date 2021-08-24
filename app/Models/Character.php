@@ -11,10 +11,18 @@ class Character extends Model
     use HasFactory;
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    protected $fillable = ['name','status','gender','race','description','image_id'];
+    protected $fillable = ['name','status','gender','race','description','image_id','birth_location_id','current_location_id'];
 
     public function image()
     {
         return $this->belongsTo(Image::class);
+    }
+    public function birth_location()
+    {
+        return $this->belongsTo(Location::class,'birth_location_id' , 'id');
+    }
+    public function current_location()
+    {
+        return $this->belongsTo(Location::class,'current_location_id' , 'id');
     }
 }

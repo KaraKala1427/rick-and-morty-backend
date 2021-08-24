@@ -32,7 +32,9 @@ class CharacterIndexRequest extends FormRequest
             'gender.*' => 'nullable|string|in:male,female',
             'status.*' => 'nullable|string|in:alive,dead',
             'race.*' => 'nullable|string|in:human,alien,robot,humanoid,animal',
-            'image_id' => 'nullable|integer|exists:images,id,deleted_at,NULL'
+            'image_id' => 'nullable|integer|exists:images,id,deleted_at,NULL',
+            'birth_location_id' => 'nullable|integer',
+            'current_location_id' => 'nullable|integer',
         ];
     }
 }

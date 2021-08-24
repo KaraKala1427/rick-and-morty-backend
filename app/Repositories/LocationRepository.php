@@ -71,6 +71,10 @@ class LocationRepository
     {
         return Location::find($id);
     }
+    public function getCharacters(int $id)
+    {
+        return Location::find($id)->characters;
+    }
 
     public function store($data)
     {

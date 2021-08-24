@@ -17,4 +17,9 @@ class Location extends Model
     {
         return $this->belongsTo(Image::class);
     }
+
+    public function characters()
+    {
+        return $this->hasMany(Character::class,'current_location_id','id');
+    }
 }

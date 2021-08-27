@@ -5,6 +5,7 @@ namespace App\Services;
 
 
 use App\Repositories\CharacterRepository;
+use App\Repositories\EpisodeRepository;
 use phpDocumentor\Reflection\Types\Integer;
 
 class CharacterService extends BaseService
@@ -83,12 +84,15 @@ class CharacterService extends BaseService
     }
 
     /**
-     * Персонажи эпизода
+     * Эпизоды где встречается этот персонаж
      */
-//    public function getCharactersPaginate($params, $id) : ServiceResult
-//    {
-//
-//        $collection = $this->repository->indexPaginate($params, $query);
-//        return $this->result($collection);
-//    }
+    public function indexEpisodePaginate($params, $id) : ServiceResult
+    {
+        $model = $this->repository->get($id);
+        if(is_null($model)) {
+            return $this->errNotFound('Персонаж не найден');
+        }
+        $episodeRepository = new EpisodeRepository();
+        return $this->result($episodeRepository->indexPaginate($params, $model->episodes()));
+    }
 }

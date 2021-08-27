@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CharacterIndexRequest;
 use App\Http\Requests\CharacterRequest;
+use App\Http\Requests\EpisodeRequest;
 use App\Http\Resources\CharacterCollection;
 use App\Http\Resources\CharacterResource;
+use App\Http\Resources\EpisodeCollection;
 use App\Models\Character;
 use App\Repositories\CharacterRepository;
 use App\Services\CharacterService;
@@ -49,5 +51,11 @@ class CharacterController extends Controller
     {
         $model =  $this->service->destroy($id);
         return $this->result($model);
+    }
+
+    public function getEpisodes(EpisodeRequest $request, $characterId)
+    {
+        $characters = $this->service->indexEpisodePaginate($request->validated(), $characterId);
+        return $this->resultCollection(EpisodeCollection::class,$characters);
     }
 }

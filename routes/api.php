@@ -22,6 +22,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function(){
     Route::apiResource('characters',CharacterController::class);
+    Route::group(['prefix'=>'characters'], function (){
+        Route::get('{id}/episodes',[CharacterController::class, 'getEpisodes']);
+    });
     Route::apiResource('images',ImageController::class)->only(['store','destroy']);
     Route::apiResource('locations',LocationController::class);
     Route::apiResource('episodes',EpisodeController::class);

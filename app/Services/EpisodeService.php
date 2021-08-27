@@ -130,7 +130,6 @@ class EpisodeService extends BaseService
             return $this->errNotFound('Эпизод не найден');
         }
         $queryCharacters = $model->characters();
-//        dd($queryCharacters);
         $collection = $this->characterRepository->indexPaginate($params, $queryCharacters);
         return $this->result($collection);
     }

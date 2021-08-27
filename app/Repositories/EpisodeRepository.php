@@ -13,19 +13,22 @@ use Illuminate\Pagination\Paginator;
 
 class EpisodeRepository
 {
-    public function indexPaginate($params)
+    public function indexPaginate($params, $query = null)
     {
         $perPage = $params['per_page'] ?? 4;
-        return $this->prepareQuery($params)->paginate($perPage);
+        return $this->prepareQuery($params, $query)->paginate($perPage);
     }
     public function index($params): Collection
     {
         return $this->prepareQuery($params)->get();
     }
 
-    private function prepareQuery($params)
+    private function prepareQuery($params, $query = null)
     {
-        $query = Episode::with(['image']);
+        if(!$query){
+          $query = Episode::select('*');
+        }
+        $query = $query->with(['image']);
         $query = $this->queryApplyFilter($query,$params);
         $query = $this->queryApplySort($query,$params);
         return $query;

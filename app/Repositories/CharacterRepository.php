@@ -12,19 +12,22 @@ use Illuminate\Pagination\Paginator;
 
 class CharacterRepository
 {
-    public function indexPaginate($params)
+    public function indexPaginate($params, $query = null) : LengthAwarePaginator
     {
         $perPage = $params['per_page'] ?? 4;
-        return $this->prepareQuery($params)->paginate($perPage);
+        return $this->prepareQuery($params, $query)->paginate($perPage);
     }
     public function index($params): Collection
     {
         return $this->prepareQuery($params)->get();
     }
 
-    private function prepareQuery($params)
+    private function prepareQuery($params, $query = null)
     {
-        $query = Character::with(['image','birth_location','current_location']);
+        if(!$query){
+            $query = Character::select('*');
+        }
+        $query = $query->with(['image','birthLocation','currentLocation']);
         $query = $this->queryApplyFilter($query,$params);
         $query = $this->queryApplySort($query,$params);
         return $query;
@@ -96,14 +99,12 @@ class CharacterRepository
         return $model->delete();
     }
 
-    public function existsName(string $name, int $id = null)
+    public function existsName($name, $id = null) : bool
     {
-        $model = Character::find($id);
-
-        if(isset($model->name) && $model->name == $name) return false;
-        elseif(Character::where('name',$name)->first() === null) return false;
-
-        return true;
+        return !is_null(Character::where('name',$name)
+            ->when($id, function ($query) use ($id) {
+                return $query->where('id','<>',$id);
+            })
+            ->first());
     }
-
 }

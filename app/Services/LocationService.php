@@ -11,7 +11,8 @@ class LocationService extends BaseService
     protected $repository;
     protected $imageService;
 
-    public function __construct(LocationRepository $characterRepository, ImageService $imageService){
+    public function __construct(LocationRepository $characterRepository, ImageService $imageService)
+    {
         $this->repository = $characterRepository;
         $this->imageService = $imageService;
     }
@@ -31,8 +32,7 @@ class LocationService extends BaseService
     {
         $model = $this->repository->get($id);
 
-        if(is_null($model))
-        {
+        if(is_null($model)) {
             return $this->errNotFound('Локация не найдена');
         }
         return $this->result($model);
@@ -42,8 +42,7 @@ class LocationService extends BaseService
      */
     public function store($data) : ServiceResult
     {
-        if($this->repository->existsName($data['name']))
-        {
+        if($this->repository->existsName($data['name'])) {
             return $this->errValidate("Локация с таким именем уже существует");
         }
 
@@ -58,12 +57,10 @@ class LocationService extends BaseService
     public function update($id, $data) : ServiceResult
     {
         $model = $this->repository->get($id);
-        if(is_null($model))
-        {
+        if(is_null($model)) {
             return $this->errNotFound('Локация не найдена');
         }
-        if($this->repository->existsName($data['name'],$id))
-        {
+        if($this->repository->existsName($data['name'],$id)) {
             return $this->errValidate("Локация с таким именем уже существует");
         }
 
@@ -77,8 +74,7 @@ class LocationService extends BaseService
     public function destroy($id)
     {
         $model =  $this->repository->get($id);
-        if(is_null($model))
-        {
+        if(is_null($model)) {
             return $this->errNotFound('Локация не найдена');
         }
         $this->repository->destroy($model);

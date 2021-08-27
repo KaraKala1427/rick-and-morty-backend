@@ -27,5 +27,10 @@ class ImageRepository
         return $model->delete();
     }
 
+    public function storeImageEpisode($data)
+    {
+        return Image::Create($data);
+    }
+
 
 }

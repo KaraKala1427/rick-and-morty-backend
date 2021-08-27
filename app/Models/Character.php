@@ -17,12 +17,16 @@ class Character extends Model
     {
         return $this->belongsTo(Image::class);
     }
-    public function birth_location()
+    public function birthLocation()
     {
         return $this->belongsTo(Location::class,'birth_location_id' , 'id');
     }
-    public function current_location()
+    public function currentLocation()
     {
         return $this->belongsTo(Location::class,'current_location_id' , 'id');
+    }
+    public function episodes()
+    {
+        return $this->belongsToMany(Episode::class);
     }
 }

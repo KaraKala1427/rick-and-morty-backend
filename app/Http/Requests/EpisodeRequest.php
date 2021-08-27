@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CharacterIndexRequest extends FormRequest
+class EpisodeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,17 +24,16 @@ class CharacterIndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'nullable|string|max:255',
             'page' => 'nullable|integer',
             'per_page' => 'nullable|integer',
-            'sort' => 'nullable|string|in:id,name,status,gender,race',
+            'sort' => 'nullable|string|in:id,name,season,series,premiere',
             'order' => 'nullable|in:asc,desc',
-            'gender.*' => 'nullable|string|in:male,female',
-            'status.*' => 'nullable|string|in:alive,dead',
-            'race.*' => 'nullable|string|in:human,alien,robot,humanoid,animal',
+            'name' => 'nullable|string|max:100',
+            'season' => 'nullable|integer|',
+            'series' => 'nullable|integer|',
+            'premiere' => 'nullable|date|max:100',
+            'description' => 'nullable|string|max:10000',
             'image_id' => 'nullable|integer|exists:images,id,deleted_at,NULL',
-            'birth_location_id' => 'nullable|integer|exists:locations,id,deleted_at,NULL',
-            'current_location_id' => 'nullable|integer|exists:locations,id,deleted_at,NULL',
         ];
     }
 }

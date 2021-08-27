@@ -18,7 +18,8 @@ class ImageController extends Controller
 
     public function store(ImageRequest $request)
     {
-        $model = $this->service->store($request->validated());
+        $data = $request->validated();
+        $model = $this->service->store($data['file']);
         return $this->resultResource(ImageResource::class,$model);
     }
     public function destroy($id)

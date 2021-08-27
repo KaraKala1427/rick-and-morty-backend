@@ -6,12 +6,12 @@ namespace App\Repositories;
 
 use App\Models\Character;
 use App\Models\Image;
-use App\Models\Location;
+use App\Models\Episode;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 
-class LocationRepository
+class EpisodeRepository
 {
     public function indexPaginate($params)
     {
@@ -25,7 +25,7 @@ class LocationRepository
 
     private function prepareQuery($params)
     {
-        $query = Location::with(['image']);
+        $query = Episode::with(['image']);
         $query = $this->queryApplyFilter($query,$params);
         $query = $this->queryApplySort($query,$params);
         return $query;
@@ -37,22 +37,6 @@ class LocationRepository
                $subQuery->where('name','LIKE',"%{$params['name']}%")
                    ->orWhere('description','LIKE',"%{$params['name']}%");
             });
-        }
-        if(isset($params['type'])){
-            if(is_array($params['type'])){
-                $query->whereIn('type',$params['type']);
-            }
-            else {
-                $query->where('type',$params['type']);
-            }
-        }
-        if(isset($params['dimension'])){
-            if(is_array($params['dimension'])){
-                $query->whereIn('dimension',$params['dimension']);
-            }
-            else {
-                $query->where('dimension',$params['dimension']);
-            }
         }
         return $query;
     }
@@ -67,18 +51,14 @@ class LocationRepository
         return $query;
     }
 
-    public function get(int $id) : ?Location
+    public function get(int $id) : ?Episode
     {
-        return Location::find($id);
-    }
-    public function getCharacters(int $id)
-    {
-        return Location::find($id)->characters;
+        return Episode::find($id);
     }
 
     public function store($data)
     {
-        return Location::Create($data);
+        return Episode::Create($data);
     }
 
     public function update($id, $data)
@@ -92,11 +72,20 @@ class LocationRepository
 
     public function existsName($name, $id = null) : bool
     {
-        return !is_null(Location::where('name',$name)
+        return !is_null(Episode::where('name',$name)
             ->when($id, function ($query) use ($id) {
                 return $query->where('id','<>',$id);
             })
             ->first());
+    }
+
+    public function updateImageEpisode($id, $imageId)
+    {
+        return Episode::where('id', $id)->update(array('image_id' => $imageId));
+    }
+    public function destroyImage($id)
+    {
+        return Episode::where('id', $id)->update(array('image_id' => null));
     }
 
 }

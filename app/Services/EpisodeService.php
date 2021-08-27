@@ -139,7 +139,7 @@ class EpisodeService extends BaseService
      */
     public function storeCharacter($data, $id) : ServiceResult
     {
-        if(!is_null($this->characterEpisodeRepository->existsCharacter($data['character_id']))) {
+        if(!is_null($this->characterEpisodeRepository->existsCharacter($data['character_id'],$id))) {
             return $this->errValidate("Персонаж в этом эпизоде уже существует");
         }
         $data['episode_id'] = $id;

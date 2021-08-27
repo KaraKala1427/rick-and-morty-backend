@@ -28,8 +28,8 @@ class CharacterEpisodeRepository
     {
         return $this->get($id)->delete();
     }
-    public function existsCharacter($id)
+    public function existsCharacter($characterId,$episodeId)
     {
-        return CharacterEpisode::where('character_id',$id)->first();
+        return CharacterEpisode::where('character_id',$characterId)->where('episode_id',$episodeId)->first();
     }
 }

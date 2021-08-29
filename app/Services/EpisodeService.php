@@ -125,11 +125,11 @@ class EpisodeService extends BaseService
      */
     public function getCharactersPaginate($params, $id) : ServiceResult
     {
-        $model = $this->repository->get($id);
-        if(is_null($model)) {
+        $episode = $this->repository->get($id);
+        if(is_null($episode)) {
             return $this->errNotFound('Эпизод не найден');
         }
-        $queryCharacters = $model->characters();
+        $queryCharacters = $episode->characters();
         $collection = $this->characterRepository->indexPaginate($params, $queryCharacters);
         return $this->result($collection);
     }
@@ -137,29 +137,39 @@ class EpisodeService extends BaseService
     /**
      * Сохранить персонажа в эпизод
      */
-    public function storeCharacter($data, $id) : ServiceResult
+    public function attachCharacter($data, $episodeId) : ServiceResult
     {
-        if(!is_null($this->characterEpisodeRepository->existsCharacter($data['character_id'],$id))) {
-            return $this->errValidate("Персонаж в этом эпизоде уже существует");
+        $episode = $this->repository->get($episodeId);
+        if(is_null($episode)) {
+            return $this->errNotFound('Эпизод не найден');
         }
-        $data['episode_id'] = $id;
-        $this->characterEpisodeRepository->store($data);
-        return $this->ok('Персонаж эпизода сохранен');
-
+        if(is_null($this->characterRepository->get($data['character_id']))) {
+            return $this->errNotFound('Персонаж не найден');
+        }
+        if(($this->repository->existsCharacter($episode, $data['character_id']))) {
+            return $this->errNotFound('Персонаж в эпизоде уже существует');
+        }
+        $this->repository->attachCharacter($episode, $data['character_id']);
+        return $this->ok('Персонаж добавлен в эпизод');
     }
 
     /**
      * Удалить персонажа из эпизода
      */
-    public function destroyCharacter($id, $characterId)
+    public function detachCharacter($episodeId, $characterId)
     {
-        if(is_null($this->repository->get($id))) {
+        $episode = $this->repository->get($episodeId);
+        if(is_null($episode)) {
             return $this->errNotFound('Эпизод не найден');
         }
-        if(is_null($this->characterEpisodeRepository->get($characterId))) {
+        if(is_null($this->characterRepository->get($characterId))) {
             return $this->errNotFound('Персонаж не найден');
         }
-        $this->characterEpisodeRepository->destroy($characterId);
+        if(!($this->repository->existsCharacter($episode, $characterId))) {
+            return $this->errNotFound('Персонаж в эпизоде не существует');
+        }
+        $this->repository->detachCharacter($episode, $characterId);
+
         return $this->ok('Персонаж из эпизода удален');
     }
 }

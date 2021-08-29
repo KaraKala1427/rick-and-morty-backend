@@ -15,9 +15,8 @@ class CreateCharacterEpisodeTable extends Migration
     {
         Schema::create('character_episode', function (Blueprint $table) {
             $table->id();
-            $table->integer('character_id');
-            $table->integer('episode_id');
-            $table->softDeletes();
+            $table->integer('character_id')->index();
+            $table->integer('episode_id')->index();
             $table->timestamps();
         });
     }

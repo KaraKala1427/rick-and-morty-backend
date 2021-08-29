@@ -32,7 +32,7 @@ Route::group(['prefix' => 'v1'], function(){
         Route::post('{id}/image',[EpisodeController::class, 'storeImage']);
         Route::delete('{id}/image',[EpisodeController::class, 'destroyImage']);
         Route::get('{id}/characters',[EpisodeController::class, 'getCharacters']);
-        Route::post('{id}/characters',[EpisodeController::class, 'storeCharacter']);
-        Route::delete('{id}/characters/{characterId}',[EpisodeController::class, 'deleteCharacter']);
+        Route::post('{id}/characters',[EpisodeController::class, 'attachCharacter']);
+        Route::delete('{id}/characters/{characterId}',[EpisodeController::class, 'detachCharacter']);
     });
 });

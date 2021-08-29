@@ -15,9 +15,9 @@ class CreateEpisodesTable extends Migration
     {
         Schema::create('episodes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('season');
-            $table->integer('series');
+            $table->string('name')->index();
+            $table->integer('season')->index();
+            $table->integer('series')->index();
             $table->date('premiere');
             $table->text('description');
             $table->foreignId('image_id')->index()->nullable();

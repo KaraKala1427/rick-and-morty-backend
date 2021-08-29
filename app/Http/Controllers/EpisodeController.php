@@ -72,14 +72,15 @@ class EpisodeController extends Controller
         return $this->resultCollection(CharacterCollection::class,$characters);
     }
 
-    public function storeCharacter(EpisodeCharacterRequest $request, $id){
-        $model = $this->service->storeCharacter($request->validated(),$id);
+    public function attachCharacter(EpisodeCharacterRequest $request, $id)
+    {
+        $model = $this->service->attachCharacter($request->validated(),$id);
         return $this->result($model);
     }
 
-    public function deleteCharacter($id, $characterId)
+    public function detachCharacter($id, $characterId)
     {
-        $model =  $this->service->destroyCharacter($id, $characterId);
+        $model =  $this->service->detachCharacter($id, $characterId);
         return $this->result($model);
     }
 }

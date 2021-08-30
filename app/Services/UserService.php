@@ -27,8 +27,12 @@ class UserService extends BaseService
             ]);
         }
         $token = $user->createToken($user->name)->plainTextToken;
-        $user['token'] = $token;
-        return $this->result($user);
+
+        return $this->result([
+            'token' => $token,
+            'userId' => $user->id,
+            'userName' => $user->name,
+        ]);
     }
     public function register($data) : ServiceResult
     {

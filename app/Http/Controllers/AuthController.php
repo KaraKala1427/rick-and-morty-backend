@@ -19,7 +19,7 @@ class AuthController extends Controller
     public function login(UserLoginRequest $request)
     {
         $model = $this->service->login($request->validated());
-        return $this->resultResource(UserLoginResource::class, $model);
+        return $this->result($model);
     }
 
     public function register(UserReqisterRequest $request)

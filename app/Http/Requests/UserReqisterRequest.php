@@ -25,7 +25,7 @@ class UserReqisterRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'phone' => 'required|string|unique:users,phone',
+            'phone' => 'required|regex:/[0-9]{3} [0-9]{3} [0-9]{4}/|unique:users,phone',
             'password' => 'required|string|min:8'
         ];
     }

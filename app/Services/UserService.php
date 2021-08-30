@@ -43,7 +43,7 @@ class UserService extends BaseService
 
     public function logout($user): ServiceResult
     {
-        $user->tokens()->delete();
+        $user->currentAccessToken()->delete();
         return $this->ok('Пользователь разлогинен');
     }
 

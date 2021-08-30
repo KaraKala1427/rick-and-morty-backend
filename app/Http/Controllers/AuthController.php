@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserReqisterRequest;
-use App\Http\Resources\UserLoginResource;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
@@ -18,18 +17,15 @@ class AuthController extends Controller
     }
     public function login(UserLoginRequest $request)
     {
-        $model = $this->service->login($request->validated());
-        return $this->result($model);
+        return $this->result($this->service->login($request->validated()));
     }
 
     public function register(UserReqisterRequest $request)
     {
-        $model = $this->service->register($request->validated());
-        return $this->result($model);
+        return $this->result($this->service->register($request->validated()));
     }
     public function logout(Request $request)
     {
-        $model = $this->service->logout($request->user());
-        return $this->result($model);
+        return $this->result($this->service->logout($request->user()));
     }
 }

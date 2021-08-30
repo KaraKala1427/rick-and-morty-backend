@@ -8,7 +8,7 @@ use App\Models\User;
 
 class UserRepository
 {
-    public function get($phone)
+    public function getUserByPhone($phone)
     {
         return User::where('phone',$phone)->first();
     }

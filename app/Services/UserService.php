@@ -20,11 +20,12 @@ class UserService extends BaseService
     }
     public function login($data) : ServiceResult
     {
-        $user = $this->repository->get($data['phone']);
-        if (! $user || ! Hash::check($data['password'], $user->password)) {
-            throw ValidationException::withMessages([
-                'user' => ['The provided credentials are incorrect.'],
-            ]);
+        $user = $this->repository->getUserByPhone($data['phone']);
+        if(is_null($user)){
+            return $this->errValidate('Пользователь с таким телефоном не существует');
+        }
+        if (! Hash::check($data['password'], $user->password)) {
+            return $this->errValidate('Неверный пароль');
         }
         $token = $user->createToken($user->name)->plainTextToken;
 

@@ -91,17 +91,4 @@ class EpisodeRepository
         return Episode::where('id', $id)->update(array('image_id' => null));
     }
 
-    public function attachCharacter(Episode $episode, $characterId)
-    {
-        $episode->characters()->attach($characterId);
-    }
-    public function detachCharacter(Episode $episode, $characterId)
-    {
-        $episode->characters()->detach($characterId);
-    }
-    public function existsCharacter(Episode $episode, $characterId)
-    {
-        return $episode->characters->contains($characterId);
-    }
-
 }

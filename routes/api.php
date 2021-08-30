@@ -6,6 +6,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,7 +28,8 @@ Route::group(['prefix'=>'v1'], function () {
     });
     Route::middleware('auth:sanctum')->group(function () {
         Route::group(['prefix'=>'cabinet'], function () {
-            Route::post('logout', [AuthController::class, 'logout']);
+            Route::post('/logout', [AuthController::class, 'logout']);
+            Route::get('/users/my', [UserController::class, 'profile']);
         });
         Route::apiResource('characters', CharacterController::class);
         Route::group(['prefix' => 'characters'], function () {

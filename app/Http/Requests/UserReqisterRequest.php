@@ -26,7 +26,7 @@ class UserReqisterRequest extends FormRequest
         return [
             'name' => 'required|string',
             'phone' => 'required|string|unique:users,phone',
-            'password' => 'required|string'
+            'password' => 'required|string|min:8'
         ];
     }
 }

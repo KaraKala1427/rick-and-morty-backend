@@ -6,7 +6,9 @@ namespace App\Services;
 
 use App\Repositories\UserRepository;
 use http\Env\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class UserService extends BaseService
@@ -25,12 +27,8 @@ class UserService extends BaseService
             ]);
         }
         $token = $user->createToken($user->name)->plainTextToken;
-
-        return $this->result([
-            'token' => $token,
-            'userId'   => $user->id,
-            'userName' => $user->name,
-        ]);
+        $user['token'] = $token;
+        return $this->result($user);
     }
     public function register($data) : ServiceResult
     {
@@ -43,6 +41,11 @@ class UserService extends BaseService
     {
         $user->tokens()->delete();
         return $this->ok('Пользователь разлогинен');
+    }
+
+    public function profile() : ServiceResult
+    {
+        return $this->result(Auth::user());
     }
 
 }

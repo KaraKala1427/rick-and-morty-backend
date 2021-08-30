@@ -18,7 +18,7 @@ class UserProfileResource extends JsonResource
             'id' => $this->id,
             'phone' => $this->phone,
             'name' => $this->name,
-            'locked' => 0,
+            'locked' => $this->locked,
             'created_at' => $this->created_at->format('Y-m-d H:i:s')
         ];
     }
